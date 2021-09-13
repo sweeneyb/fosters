@@ -49,7 +49,7 @@ export default function Cats({ session }) {
     { cats ?  ( 
       
       cats.map ((cat) =>
-      <li key={cat.id}> {cat.name} </li>
+      <li key={cat.id}> <a href={"details/"+cat.id}>{cat.name}</a></li>
     ) ): ( 
       <p>no cats!</p>
     )}
