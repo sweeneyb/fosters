@@ -80,7 +80,7 @@ export default function Cats() {
     <div className="form-widget">
         Hi, I'm a cat detail.
 
-        { cat ? (<section><h2>{cat.name}</h2>  <a href={"/details/"+catId+"/add"} class="button">add</a></section>) : (<p>foo</p>)}
+        { cat ? (<section><h2>{cat.name}</h2>  <a href={"/details/"+catId+"/add"} className="button">add</a></section>) : (<p>foo</p>)}
         { details ?  ( 
       
            details.map ((detail) =>
