@@ -11,6 +11,7 @@ import Auth from './Auth'
 import Account from './Account'
 import Cats from './Cats'
 import CatDetails from './CatDetail'
+import CatAddDetails from './components/CatAddDetail'
 
 export default function Home() {
   const [session, setSession] = useState(null)
@@ -43,9 +44,13 @@ export default function Home() {
           <Route path="/cats">
           <Cats />
           </Route>
+          <Route path="/details/:catId/add">
+            <CatAddDetails/>
+          </Route>
           <Route path="/details/:catId">
           <CatDetails />
           </Route>
+
           <Route path="/">
             <div className="container" style={{ padding: '50px 0 100px 0' }}>
               {!session ? <Auth /> : <div><Account key={session.user.id} session={session} /> </div>}

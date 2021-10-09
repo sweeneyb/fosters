@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
+import { supabase } from '../supabaseClient'
 import {
     useParams
   } from "react-router-dom";
 
 
-export default function Cats() {
+export default function CatAddDetails() {
   let { catId } = useParams();
   const [loading, setLoading] = useState(true)
   const [cat, setCat] = useState(null)
@@ -80,34 +80,10 @@ export default function Cats() {
     <div className="form-widget">
         Hi, I'm a cat detail.
 
-        { cat ? (<section><h2>{cat.name}</h2>  <a href={"/details/"+catId+"/add"} class="button">add</a></section>) : (<p>foo</p>)}
-        { details ?  ( 
-      
-           details.map ((detail) =>
-           <li key={detail.id}> {detail.weight ? (detail.weight +"grams.")  : (null) }   {detail.note} </li>
-         ) ): ( 
-           <p>no details!</p>
-         )}
-      {/* {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt="Avatar"
-          className="avatar image"
-          style={{ height: size, width: size }}
-        />
-      ) : (
-        <div className="avatar no-image" style={{ height: size, width: size }} />
-      )}
-      <div>
-        <label htmlFor="username">Name</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div> */}
-
+        { cat ? (<section><h2>{cat.name}</h2>
+         <p><input type="number" name="weight" placeholder="weight" style={{"width": "25%"}}></input> grams</p>
+         <a href="#" class="button">add</a></section>) : (<p>foo</p>)}
+        
     </div>
   )
 }
