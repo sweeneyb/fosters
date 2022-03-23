@@ -7,8 +7,6 @@ import { getCats } from '../utils/DataUtils';
   export default function Cats(props) {
     let { catId } = useParams();
     const [cats, setCats] = useState([])
-    // const [idx, setIdx] = useState(cats.findIndex( o => catId == o.id))
-
     
     function getCatIndex() {
         if(catId == undefined) {
