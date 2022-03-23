@@ -9,6 +9,18 @@ import { getCats } from '../utils/DataUtils';
     const [cats, setCats] = useState([])
     const [idx, setIdx] = useState(0)
 
+    function prev() {
+        if(idx == 0) {
+            setIdx(cats.length-1)
+        } else {
+            setIdx(idx -1)
+        }
+    }
+
+    function next() {
+        setIdx( (idx+1)%cats.length)
+    }
+
    
     useEffect(() => {
         getCats().then(data => setCats(data))
@@ -25,6 +37,11 @@ import { getCats } from '../utils/DataUtils';
         
 
         { cats[idx] && cats[idx].name }
+
+        <br />
+        <a className="button" onClick={prev}>prev</a>
+        <a className="button" onClick={next}>next</a>
+
         </div>
     )
 }
