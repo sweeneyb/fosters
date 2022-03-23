@@ -1,26 +1,38 @@
-import { useState, useEffect, useRef } from 'react'
-import { supabase } from '../supabaseClient'
+import { useState, useEffect, Children, cloneElement, Fragment } from 'react'
 import {
     useParams, useHistory
   } from "react-router-dom";
 import { getCats } from '../utils/DataUtils';
 
-  export default function Cats({ session }) {
+  export default function Cats(props) {
+    let { catId } = useParams();
     const [cats, setCats] = useState([])
-    const [idx, setIdx] = useState(0)
+    // const [idx, setIdx] = useState(cats.findIndex( o => catId == o.id))
 
-    function prev() {
-        if(idx == 0) {
-            setIdx(cats.length-1)
+    
+    function getCatIndex() {
+        if(catId == undefined) {
+            return 0
         } else {
-            setIdx(idx -1)
+            const result = cats.findIndex( o => catId == o.id)
+            if (result == -1) {
+                return 0
+            } else {
+                return result
+            }
         }
+
     }
 
-    function next() {
-        setIdx( (idx+1)%cats.length)
-    }
-
+    const idx = getCatIndex()
+    const nextIdx = (idx+1)%cats.length
+    const prevIdx = (() => {
+        if(idx == 0) {
+                    return cats.length-1
+                } else {
+                    return idx -1
+                }
+        })()
    
     useEffect(() => {
         getCats().then(data => setCats(data))
@@ -28,19 +40,23 @@ import { getCats } from '../utils/DataUtils';
 
     return (
         <div>
-        <p>Cat scrolls</p>
-        {/* {cats ? cats.map ((cat) => {
-              return (
-                <p>{cat.name}</p>
-                    ) } 
-                    ): <p>no cats</p> } */}
-        
+        { cats.length > 0 ?
+            <Fragment>
+            <a href={"/scroll/"+cats[nextIdx].id} className="button" >prev</a>
+            <a href={"/scroll/"+cats[prevIdx].id} className="button" >next</a>
+            </Fragment>
+            : <Fragment /> 
+        }
+        { cats.length > 0 ? (
+            Children.map(props.children, (child) =>
+             cloneElement(child,  {id : cats[idx].id, name: cats[idx].name})
+            )
+        )
 
-        { cats[idx] && cats[idx].name }
-
-        <br />
-        <a className="button" onClick={prev}>prev</a>
-        <a className="button" onClick={next}>next</a>
+        :
+        <Fragment/>
+        // props.children
+        }
 
         </div>
     )

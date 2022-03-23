@@ -13,6 +13,7 @@ import Cats from './Cats'
 import CatDetails from './CatDetail'
 import CatAddDetails from './components/CatAddDetail'
 import CatScroller from './components/CatScroller'
+import CatDetailComponent from './components/CatDetailComponent'
 
 export default function Home() {
   const [session, setSession] = useState(null)
@@ -48,8 +49,10 @@ export default function Home() {
           <Route path="/cats">
           <Cats />
           </Route>
-          <Route path="/scroll">
-            <CatScroller/>
+          <Route path="/scroll/:catId?">
+            <CatScroller>
+              <CatDetailComponent/>
+            </CatScroller>
           </Route>
           <Route path="/details/:catId/add">
             <CatAddDetails/>
