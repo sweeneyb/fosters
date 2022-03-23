@@ -5,6 +5,11 @@ import {
   } from "react-router-dom";
 
 
+function getHumanTime(timestamp) {
+  var date = new Date(timestamp)
+  return date.toLocaleString()
+}
+
 export default function Cats() {
   let { catId } = useParams();
   const [loading, setLoading] = useState(true)
@@ -56,8 +61,9 @@ export default function Cats() {
       console.log("getting cat")
       let { data, error, status } = await supabase
         .from('catDetails')
-        .select(`id,note, weight, Cats ( name )`)
+        .select(`id,note, weight, Cats ( name ), updated_at, created_at`)
         .eq('cat', catId)
+        .order('created_at', { ascending: false })
 
       if (error && status !== 406) {
         throw error
@@ -78,16 +84,37 @@ export default function Cats() {
   return (
 
     <div className="form-widget">
-        Hi, I'm a cat detail.
-
         { cat ? (<section><h2>{cat.name}</h2>  <a href={"/details/"+catId+"/add"} className="button">add</a></section>) : (<p>foo</p>)}
-        { details ?  ( 
+        {/* { details ?  ( 
       
            details.map ((detail) =>
            <li key={detail.id}> {detail.weight ? (detail.weight +"grams.")  : (null) }   {detail.note} </li>
          ) ): ( 
            <p>no details!</p>
+         )} */}
+         {
+           details ? (
+            <table>
+            <tr>
+              <th style={{textAlign:"left"}}>Weight</th>
+              <th style={{textAlign:"left"}}>Note</th>
+              <th style={{textAlign:"left"}}>Time</th>
+            </tr>
+            {details.map ((detail) => {
+              return (
+                <tr key={detail.id}>
+                  <td>{detail.weight ? (detail.weight +"grams.")  : (null) }</td>
+                  <td>{detail.note}</td>
+                  <td>{getHumanTime(detail.created_at)}</td>
+                </tr>
+              )
+            }
          )}
+          </table>
+           ) : ( 
+            <p>no details!</p>
+           )
+         }
       {/* {avatarUrl ? (
         <img
           src={avatarUrl}
