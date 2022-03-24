@@ -63,10 +63,21 @@ export default function Cats(props) {
               <th style={{textAlign:"left"}}>Note</th>
               <th style={{textAlign:"left"}}>Time</th>
             </tr>
-            {details.map ((detail) => {
+            {details.map ((detail, idx) => {
+
+              const curWeight = detail.weight
+              const prevWeight = idx == details.length-1? details[details.length-1].weight : details[idx+1].weight
+              var indicatorColor = "inherit"
+              if (curWeight > prevWeight) {
+                indicatorColor = "#569c61"
+              }
+              if (prevWeight > curWeight) {
+                indicatorColor = "#d93621"
+              }
+
               return (
                 <tr key={detail.id}>
-                  <td>{detail.weight ? (detail.weight +"grams.")  : (null) }</td>
+                  <td style={{backgroundColor: indicatorColor}}>{detail.weight ? (detail.weight +"grams.")  : (null) }</td>
                   <td>{detail.note}</td>
                   <td>{getHumanTime(detail.created_at)}</td>
                 </tr>
