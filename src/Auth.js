@@ -18,6 +18,12 @@ export default function Auth() {
     }
   }
 
+  async function signInWithGoogle() {
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: 'google',
+    })
+  }
+
   return (
     <div className="row flex flex-center">
       <div className="col-6 form-widget">
@@ -42,6 +48,16 @@ export default function Auth() {
             disabled={loading}
           >
             {loading ? <span>Loading</span> : <span>Send magic link</span>}
+          </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              signInWithGoogle()
+            }}
+            className={'button block'}
+            disabled={loading}
+          >
+            {loading ? <span>Loading</span> : <span>Sign in with Google</span>}
           </button>
         </div>
       </div>
