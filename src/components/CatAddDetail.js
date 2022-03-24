@@ -99,7 +99,7 @@ export default function CatAddDetails() {
        { cat: catId, weight: weightInput.current.value, note: notesInput.current.value }
        ])
     console.log(data, error)
-    history.push("/details/"+catId)
+    history.push("/scroll/"+catId)
   }
 
   return (
