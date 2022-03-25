@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 
-export default function Avatar({ url, size, onUpload }) {
+export default function Avatar({ url, size, onUpload, disableUpload = false }) {
+  const noUpload = disableUpload
   const [avatarUrl, setAvatarUrl] = useState(null)
   const [uploading, setUploading] = useState(false)
 
@@ -52,6 +53,30 @@ export default function Avatar({ url, size, onUpload }) {
     }
   }
 
+  function getUploadButton() {
+    if(noUpload) {
+      return ( <Fragment />)
+    } else {
+      return (
+        <Fragment>
+        <label className="button primary block" htmlFor="single">
+          {uploading ? 'Uploading ...' : 'Upload'}
+        </label>
+      <input
+          style={{
+            visibility: 'hidden',
+            position: 'absolute',
+          }}
+          type="file"
+          id="single"
+          accept="image/*"
+          onChange={uploadAvatar}
+          disabled={uploading}
+        />
+        </Fragment>
+    )}
+  }
+
   return (
     <div>
       {avatarUrl ? (
@@ -65,20 +90,9 @@ export default function Avatar({ url, size, onUpload }) {
         <div className="avatar no-image" style={{ height: size, width: size }} />
       )}
       <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </label>
-        <input
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={uploadAvatar}
-          disabled={uploading}
-        />
+        
+        
+        {getUploadButton()}
       </div>
     </div>
   )

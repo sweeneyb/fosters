@@ -47,7 +47,7 @@ import { getCats } from '../utils/DataUtils';
         }
         { cats.length > 0 ? (
             Children.map(props.children, (child) =>
-             cloneElement(child,  {id : cats[idx].id, name: cats[idx].name})
+             cloneElement(child,  {id : cats[idx].id, name: cats[idx].name, photo_url: cats[idx].photo_url})
             )
         )
 

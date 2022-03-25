@@ -14,6 +14,8 @@ import CatDetails from './CatDetail'
 import CatAddDetails from './components/CatAddDetail'
 import CatScroller from './components/CatScroller'
 import CatDetailComponent from './components/CatDetailComponent'
+import AddCat from './components/AddCat'
+import CatPicker from './components/CatPicker'
 
 export default function Home() {
   const [session, setSession] = useState(null)
@@ -30,16 +32,22 @@ export default function Home() {
     <Router>
       <div>
         <nav>
-          <ul>
-            <li>
+          <ul style={{display: "flex", displayDirection: "row", flexWrap: "wrap", listStyle: "none"}}>
+            <li style={{padding: "5px"}}>
               <Link to="/">Home</Link>
             </li>
-            <li>
-              <Link to="/cats">Cats</Link>
+            <li style={{padding: "5px"}}>
+              <Link to="/Login">Login</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/scroll">Scroll Cats</Link>
+            </li> */}
+            <li style={{padding: "5px"}}>
+              <Link to="/addCat">Add Cat</Link>
             </li>
+            {/* <li>
+              <Link to="/pick">Pick Cat</Link>
+            </li> */}
           </ul>
         </nav>
 
@@ -47,7 +55,7 @@ export default function Home() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/cats">
-          <Cats />
+            <Cats />
           </Route>
           <Route path="/scroll/:catId?">
             <CatScroller>
@@ -60,11 +68,18 @@ export default function Home() {
           <Route path="/details/:catId">
           <CatDetails />
           </Route>
+          <Route path="/addCat">
+            <AddCat />
+          </Route>
 
-          <Route path="/">
+          <Route path="/Login">
             <div className="container" style={{ padding: '50px 0 100px 0' }}>
               {!session ? <Auth /> : <div><Account key={session.user.id} session={session} /> </div>}
             </div>
+          </Route>
+
+          <Route path="/">
+            <CatPicker />
           </Route>
         </Switch>
       </div>

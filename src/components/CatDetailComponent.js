@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { supabase } from '../supabaseClient'
 import {
     useParams
   } from "react-router-dom";
+import Avatar from '../Avatar'
 
 
 function getHumanTime(timestamp) {
@@ -11,7 +12,7 @@ function getHumanTime(timestamp) {
 }
 
 export default function Cats(props) {
-  let { name, id } = {...props};
+  let { name, id, photo_url } = {...props};
   const [loading, setLoading] = useState(true)
   const [details, setDetails] = useState(null)
   // const [username, setUsername] = useState(null)
@@ -53,9 +54,16 @@ export default function Cats(props) {
   return (
 
     <div className="form-widget">
-        { name ? (<section><h2>{name}</h2>  <a href={"/details/"+id+"/add"} className="button">add</a></section>) : (<p>foo</p>)}
+        { name ? (<section><h2>{name}</h2>
+              <Avatar
+                url={photo_url}
+                size={150}
+                onUpload={()=>{}}
+                disableUpload={true}
+              />  <a href={"/details/"+id+"/add"} className="button">add</a></section>) : (<p>foo</p>)}
          {
            details ? (
+            <Fragment>
             <table>
               <tbody>
             <tr>
@@ -87,6 +95,7 @@ export default function Cats(props) {
          )}
          </tbody>
           </table>
+          </Fragment>
            ) : ( 
             <p>no details!</p>
            )

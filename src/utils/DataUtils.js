@@ -7,6 +7,7 @@ export async function getCats() {
         let { data, error, status } = await supabase
           .from('Cats')
           .select(`id, name, photo_url`)
+          .eq('isActive', true)
   
         if (error && status !== 406) {
           throw error
